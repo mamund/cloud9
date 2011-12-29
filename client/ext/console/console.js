@@ -86,9 +86,16 @@ module.exports = ext.register("ext/console/console", {
         },
         "send": {
             hint: "send a message to the server"
+        },
+        "refresh": {
+            hint: "refresh folder tree"
         }
     },
 
+    refresh : function() {
+        require("ext/tree/tree").refresh();
+    },
+    
     help : function() {
         var words = trieCommands.getWords();
         var tabs = "\t\t\t\t";
@@ -240,7 +247,10 @@ module.exports = ext.register("ext/console/console", {
                     this.write(Output[cmd].__default__.replace("%s", cmd));
             }
             else {
-                if (cmd === "help") {
+                if (cmd === "refresh") {
+                    this.refresh();
+                }
+                else if (cmd === "help") {
                     this.help();
                 }
                 else if (cmd === "clear") {
