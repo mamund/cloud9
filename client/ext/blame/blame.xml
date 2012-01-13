@@ -1,0 +1,16 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:style><![CDATA[
+        .blame_bar {
+            background: url(/static/style/images/header_backg.png) repeat-x 0 0;
+            color: #E8E8E8;
+            padding-top:.3em;
+        }
+        .blame_text p {
+            color:red;
+        }
+        .blame_close {
+            display:block;
+            float:right;
+        }
+    ]]></a:style>
+</a:application>
