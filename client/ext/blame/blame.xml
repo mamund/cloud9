@@ -6,7 +6,7 @@
             padding-top:.3em;
         }
         .blame_text p {
-            color:red;
+            color:blue;
         }
         .blame_text span.author {
             color:black;

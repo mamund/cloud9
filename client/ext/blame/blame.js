@@ -195,11 +195,11 @@ module.exports = ext.register("ext/blame/blame", {
         var commitData = this.blameState[file].commitData;
         
         var arrayOutput = [];
-        var fmt = '<p><span class="author">{@author}</span><span class="date">{@date}</span></p>'
+        var fmt = '<p><span class="author">{@author}</span><span class="date">{@date}</span></p>';
         for(var i in lineData) {
             var hash = commitData[lineData[i].hash];
             var dt = new Date(hash.authorTime * 1000);
-            arrayOutput.push(fmt.replace('{@author}',hash.author).replace('{@date}',dt.toGMTString()));
+            arrayOutput.push(fmt.replace('{@author}',hash.author).replace('{@date}',dt.getFullYear+'-'+(dt.getMonth()+1)+'-'+dt.getDate()()));
         }
         this.blameState[file].output = arrayOutput.join('');  
         blameText.setValue(this.blameState[file].output); 
