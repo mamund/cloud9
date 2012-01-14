@@ -8,6 +8,13 @@
         .blame_text p {
             color:red;
         }
+        .blame_text span.author {
+            color:black;
+            margin-right: .3em;
+        }
+        .blame_text span.date {
+            font-style:italic;
+        }
         .blame_close {
             display:block;
             float:right;
