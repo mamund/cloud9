@@ -249,10 +249,10 @@ module.exports = ext.register("ext/blame/blame", {
         for(var i in lineData) {
             hash = commitData[lineData[i].hash];
             ds = new Date(parseInt(hash.authorTime, 10) * 1000).toString().split(' ');
-            if(bk!==hash.author) {
+            if(bk!==hash.author+hash.authorTime) {
                 cls=(cls==='on'?'off':'on');
                 arrayOutput.push(format.replace('{@cls}',cls).replace('{@author}',hash.author).replace('{@date}',ds[0]+' '+ds[1]+' '+ds[2]+' '+ds[3]));
-                bk=hash.author;
+                bk=hash.author+hash.authorTime;
             }
             else {
                 arrayOutput.push(format.replace('{@cls}',cls).replace('{@author}','*').replace('{@date}',''));
