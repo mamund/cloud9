@@ -5,15 +5,32 @@
             color: #E8E8E8;
             padding-top:.3em;
         }
+        .blame_text {
+            padding-top:.6em;
+            color:#e8e8e8;
+        }
         .blame_text p {
             color:blue;
+            font-family: "Arial";
+            color: #222;
+            font-size: 12px;        
+            line-height: 14px;
+            margin:0;
+        }
+        .blame_text p.on {
+            background-color:#dedede;
+        }
+        .blame_text p.off {
+            background-color:#fff;
         }
         .blame_text span.author {
             color:black;
             margin-right: .3em;
+            padding-left: .3em;
         }
         .blame_text span.date {
             font-style:italic;
+            font-size:smaller;
         }
         .blame_close {
             display:block;
