@@ -143,8 +143,8 @@ module.exports = ext.register("ext/blame/blame", {
     checkBlameState : function(file) {
         if(!file) {
             var file = tabEditors.getPage().$model.data.getAttribute("path");
+            file = this.fixPath(file);
         }
-        file = this.fixPath(file);
         
         if(this.blameState[file]) {
             this.blameState[file].state = 'open';
@@ -199,7 +199,7 @@ module.exports = ext.register("ext/blame/blame", {
         }
         
         console.log(message);
-    
+        
         this.handleBlameOutput(message.body.file, message.body.out);
     },
 
@@ -219,8 +219,6 @@ module.exports = ext.register("ext/blame/blame", {
     },
     
     handleBlameOutput: function(file, out) {
-        var lineData,commitData,arrayOutput,format,hash,ds,bk,cls;
-        
         this.blameParser.parseBlame(out);
 
         this.blameState[file] = {
@@ -230,23 +228,31 @@ module.exports = ext.register("ext/blame/blame", {
         };
         console.log(this.blameState[file]);
         
-        lineData = this.blameState[file].lineData;
-        commitData = this.blameState[file].commitData;
+        var lineData = this.blameState[file].lineData;
+        var commitData = this.blameState[file].commitData;
         
-        bk='';
-        cls='on';
-        arrayOutput = [];
-        format = '<p class="{@cls}"><span class="author">{@author}</span><span class="date">{@date}</span></p>';
+        var bk='';
+        var cls='on';
+        var arrayOutput = [];
+        var format = '<p class="{@cls}"><span class="author">{@author}</span><span class="date">{@date}</span></p>';
         for(var i in lineData) {
-            hash = commitData[lineData[i].hash];
-            ds = new Date(parseInt(hash.authorTime, 10) * 1000).toString().split(' ');
+            var hash = commitData[lineData[i].hash];
+            var ds = new Date(parseInt(hash.authorTime, 10) * 1000).toString().split(' ');
             if(bk!==hash.author+hash.authorTime) {
                 cls=(cls==='on'?'off':'on');
-                arrayOutput.push(format.replace('{@cls}',cls).replace('{@author}',hash.author).replace('{@date}',ds[0]+' '+ds[1]+' '+ds[2]+' '+ds[3]));
+                arrayOutput.push(format
+                    .replace('{@cls}',cls)
+                    .replace('{@author}',hash.author)
+                    .replace('{@date}',ds[0]+' '+ds[1]+' '+ds[2]+' '+ds[3])
+                );
                 bk=hash.author+hash.authorTime;
             }
             else {
-                arrayOutput.push(format.replace('{@cls}',cls).replace('{@author}','*').replace('{@date}',''));
+                arrayOutput.push(format
+                    .replace('{@cls}',cls)
+                    .replace('{@author}','*')
+                    .replace('{@date}','')
+                );
             }
         }
         
