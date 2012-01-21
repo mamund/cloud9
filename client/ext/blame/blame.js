@@ -1,13 +1,5 @@
 /**
- * Extension Template for the Cloud9 IDE client
- * 
- * Inserts a context menu item under the "Edit" menu, which, upon being
- * clicked displays a simple window with a "Close" button
- * 
- * This file is stripped of comments from extension_template.js in order to
- * provide a quick template for future extensions. Please reference
- * extension_template.js to see comprehensive documentation of extension
- * functionality
+ * GitBlame Extension for the Cloud9 IDE client
  * 
  * @copyright 2011, Ajax.org B.V.
  * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
@@ -129,7 +121,7 @@ module.exports = ext.register("ext/blame/blame", {
 
     closeBlame : function() {
         var file =  tabEditors.getPage().$model.data.getAttribute("path");
-        file = this.fixFile(file);
+        file = this.fixPath(file);
         
         if(this.blameState[file]) {
             this.blameState[file].state = 'closed';
@@ -152,7 +144,7 @@ module.exports = ext.register("ext/blame/blame", {
         if(!file) {
             var file = tabEditors.getPage().$model.data.getAttribute("path");
         }
-        file = this.fixFile(file);
+        file = this.fixPath(file);
         
         if(this.blameState[file]) {
             this.blameState[file].state = 'open';
@@ -172,7 +164,6 @@ module.exports = ext.register("ext/blame/blame", {
             subcommand : "blame",
             file       : tabEditors.getPage().$model.data.getAttribute("path")
         };
-        //data.file = this.fixFile(data.file);
         
         ide.dispatchEvent("track_action", {type: "blame", cmd: cmd});
         if (ext.execCommand(cmd, data) !== false) {
@@ -214,7 +205,7 @@ module.exports = ext.register("ext/blame/blame", {
 
     aceScroll : function(pos) {
         var file = tabEditors.getPage().$model.data.getAttribute("path");
-        file = this.fixFile(file);
+        file = this.fixPath(file);
         
         if (this.blameState[file] && this.blameState[file].state==='open') {
             var layerConfig = editors.currentEditor.ceEditor.$editor.renderer.layerConfig;
@@ -263,7 +254,7 @@ module.exports = ext.register("ext/blame/blame", {
         blameText.setValue(this.blameState[file].output); 
     },
     
-    fixFile : function(file) {
+    fixPath : function(file) {
         if(file.indexOf('/workspace/')===0) {
             file = file.substr(11);
         }
