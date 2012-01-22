@@ -234,9 +234,10 @@ module.exports = ext.register("ext/blame/blame", {
         var bk='';
         var cls='on';
         var arrayOutput = [];
-        var format = '<p class="{@cls}"><span class="author">{@author}</span><span class="date">{@date}</span></p>';
+        var format = '<p class="{@cls}" title="{@summary}"><span class="author">{@author}</span><span class="date">{@date}</span></p>';
         for(var i in lineData) {
             var hash = commitData[lineData[i].hash];
+            var summary = hash.summary;
             var ds = new Date(parseInt(hash.authorTime, 10) * 1000).toString().split(' ');
             if(bk!==hash.author+hash.authorTime) {
                 cls=(cls==='on'?'off':'on');
@@ -244,6 +245,7 @@ module.exports = ext.register("ext/blame/blame", {
                     .replace('{@cls}',cls)
                     .replace('{@author}',hash.author)
                     .replace('{@date}',ds[0]+' '+ds[1]+' '+ds[2]+' '+ds[3])
+                    .replace('{@summary}',summary)
                 );
                 bk=hash.author+hash.authorTime;
             }
@@ -252,6 +254,7 @@ module.exports = ext.register("ext/blame/blame", {
                     .replace('{@cls}',cls)
                     .replace('{@author}','*')
                     .replace('{@date}','')
+                    .replace('{@summary}','')
                 );
             }
         }
